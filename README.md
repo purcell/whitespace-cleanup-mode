@@ -1,7 +1,7 @@
 whitespace-cleanup-mode.el
 ==========================
 
-This Emacs library minor mode which will intelligently call `whitespace-cleanup`
+This Emacs library minor mode will intelligently call `whitespace-cleanup`
 before buffers are saved.
 
 `whitespace-cleanup` is a handy function, but putting it in
