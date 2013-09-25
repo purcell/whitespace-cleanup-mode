@@ -73,6 +73,8 @@ enabled."
         (add-hook 'before-save-hook 'whitespace-cleanup-mode-before-save nil t))
     (remove-hook 'before-save-hook 'whitespace-cleanup-mode-before-save t)))
 
+(put 'whitespace-cleanup-mode 'safe-local-variable 'booleanp)
+
 (defun whitespace-cleanup-mode-before-save ()
   "Function added to `before-save-hook'."
   (when (and whitespace-cleanup-mode
