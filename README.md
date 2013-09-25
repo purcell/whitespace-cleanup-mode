@@ -6,14 +6,15 @@ before buffers are saved.
 
 `whitespace-cleanup` is a handy function, but putting it in
 `before-save-hook` for every buffer is overkill, and causes messy diffs
-when editing code that did not initially have clean whitespace.
+when editing third-party code that did not initially have clean whitespace.
 
 Additionally, whitespace preferences are often project-specific, and
 it's inconvenient to set up `before-save-hook` in a `.dir-locals.el` file.
 
 `whitespace-cleanup-mode` is a minor mode which calls `whitespace-cleanup`
 before saving the current buffer, but only if the whitespace in the buffer
-was initially clean.
+was initially clean. It determines this by quickly checking to see if
+`whitespace-cleanup` would have any effect on the buffer.
 
 
 Installation
