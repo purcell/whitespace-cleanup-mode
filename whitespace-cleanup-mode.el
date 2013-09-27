@@ -56,7 +56,7 @@ enabled."
 
 (defvar whitespace-cleanup-mode-initially-clean nil
   "Records whether `whitespace-cleanup' was a no-op when the mode launched.")
-(make-variable-buffer-local 'whitespace-cleanup-mode--initially-clean-p)
+(make-variable-buffer-local 'whitespace-cleanup-mode-initially-clean)
 
 ;;;###autoload
 (define-minor-mode whitespace-cleanup-mode
