@@ -36,6 +36,9 @@
 ;; Set `whitespace-cleanup-mode' to t in ".dir-locals.el" to enable the mode
 ;; project-wide, or add it to the hook for the major mode(s) of your choice.
 
+;; To clean up whitespace everywhere by default, enable
+;; `global-whitespace-cleanup-mode'.
+
 ;; To clean up whitespace at save even if it was intitially dirty,
 ;; unset `whitespace-cleanup-mode-only-if-initially-clean'.
 
@@ -74,6 +77,14 @@ enabled."
     (remove-hook 'before-save-hook 'whitespace-cleanup-mode-before-save t)))
 
 (put 'whitespace-cleanup-mode 'safe-local-variable 'booleanp)
+
+;;;###autoload
+(define-globalized-minor-mode global-whitespace-cleanup-mode
+  whitespace-cleanup-mode
+  turn-on-whitespace-cleanup-mode)
+
+(defun turn-on-whitespace-cleanup-mode ()
+  (whitespace-cleanup-mode 1))
 
 (defun whitespace-cleanup-mode-before-save ()
   "Function added to `before-save-hook'."

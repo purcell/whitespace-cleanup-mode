@@ -34,7 +34,12 @@ Enable `whitespace-cleanup-mode` in an individual buffer like this:
 M-x whitespace-cleanup-mode
 ```
 
-Alternatively, enable it for a particular global mode:
+Optionally enable it everywhere by default using
+`global-whitespace-cleanup-mode`. (You can override that by setting
+`whitespace-cleanup-mode` to `nil` in file or directory local
+variables.)
+
+Alternatively, enable whitespace cleanup for a particular major mode:
 
 ```lisp
 (add-hook 'ruby-mode-hook 'whitespace-cleanup-mode)
