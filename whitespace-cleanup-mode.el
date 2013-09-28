@@ -89,8 +89,8 @@ enabled."
 (defun whitespace-cleanup-mode-before-save ()
   "Function added to `before-save-hook'."
   (when (and whitespace-cleanup-mode
-             whitespace-cleanup-mode-only-if-initially-clean
-             whitespace-cleanup-mode-initially-clean)
+             (or (not whitespace-cleanup-mode-only-if-initially-clean)
+                 whitespace-cleanup-mode-initially-clean))
     (whitespace-cleanup)))
 
 
