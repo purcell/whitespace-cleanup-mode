@@ -84,7 +84,8 @@ enabled."
   turn-on-whitespace-cleanup-mode)
 
 (defun turn-on-whitespace-cleanup-mode ()
-  (whitespace-cleanup-mode 1))
+  (unless (minibufferp)
+    (whitespace-cleanup-mode 1)))
 
 (defun whitespace-cleanup-mode-before-save ()
   "Function added to `before-save-hook'."
