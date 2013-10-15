@@ -71,7 +71,7 @@ enabled."
   (if whitespace-cleanup-mode
       (progn
         (setq whitespace-cleanup-mode-initially-clean
-              (let ((contents (buffer-string)))
+              (let ((contents (buffer-substring-no-properties (point-min) (point-max))))
                 (with-temp-buffer
                   (insert contents)
                   (set-buffer-modified-p nil)
