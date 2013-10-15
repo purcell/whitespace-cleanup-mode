@@ -48,6 +48,10 @@ Alternatively, enable whitespace cleanup for a particular major mode:
 To enable it for an entire project, set `whitespace-cleanup-mode` to `t` in
 your `.dir-locals.el` file.
 
+This mode is built upon some functionality built into `whitespace-mode`, namely
+`whitespace-action`: if you would rather see a warning when saving a file with
+bogus whitespace, or even have the save aborted, then set that variable.
+
 [marmalade]: http://marmalade-repo.org
 [melpa]: http://melpa.milkbox.net
 

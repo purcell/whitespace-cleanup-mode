@@ -42,6 +42,10 @@
 ;; To clean up whitespace at save even if it was intitially dirty,
 ;; unset `whitespace-cleanup-mode-only-if-initially-clean'.
 
+;; This mode is built upon some functionality built into `whitespace-mode', namely
+;; `whitespace-action': if you would rather see a warning when saving a file with
+;; bogus whitespace, or even have the save aborted, then set that variable.
+
 ;;; Code:
 
 (defgroup whitespace-cleanup-mode nil
@@ -73,8 +77,8 @@ enabled."
                   (set-buffer-modified-p nil)
                   (whitespace-cleanup)
                   (not (buffer-modified-p)))))
-        (add-hook 'before-save-hook 'whitespace-cleanup-mode-before-save nil t))
-    (remove-hook 'before-save-hook 'whitespace-cleanup-mode-before-save t)))
+        (add-hook 'write-file-functions 'whitespace-cleanup-mode-write-file nil t))
+    (remove-hook 'write-file-functions 'whitespace-cleanup-mode-write-file t)))
 
 (put 'whitespace-cleanup-mode 'safe-local-variable 'booleanp)
 
@@ -87,12 +91,14 @@ enabled."
   (unless (minibufferp)
     (whitespace-cleanup-mode 1)))
 
-(defun whitespace-cleanup-mode-before-save ()
-  "Function added to `before-save-hook'."
+(defun whitespace-cleanup-mode-write-file ()
+  "Function added to `write-file-functions'."
   (when (and whitespace-cleanup-mode
+             (not buffer-read-only)
              (or (not whitespace-cleanup-mode-only-if-initially-clean)
                  whitespace-cleanup-mode-initially-clean))
-    (whitespace-cleanup)))
+    (let ((whitespace-action (or whitespace-action '(auto-cleanup))))
+      (whitespace-write-file-hook))))
 
 
 (provide 'whitespace-cleanup-mode)
