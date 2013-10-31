@@ -88,7 +88,8 @@ enabled."
   turn-on-whitespace-cleanup-mode)
 
 (defun turn-on-whitespace-cleanup-mode ()
-  (unless (minibufferp)
+  (unless (or (minibufferp)
+              (derived-mode-p 'special-mode 'view-mode))
     (whitespace-cleanup-mode 1)))
 
 (defun whitespace-cleanup-mode-write-file ()
