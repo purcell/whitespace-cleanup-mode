@@ -89,7 +89,7 @@ enabled."
 
 (defun turn-on-whitespace-cleanup-mode ()
   (unless (or (minibufferp)
-              (derived-mode-p 'special-mode 'view-mode))
+              (derived-mode-p 'special-mode 'view-mode 'comint-mode))
     (whitespace-cleanup-mode 1)))
 
 (defun whitespace-cleanup-mode-write-file ()
