@@ -42,11 +42,13 @@
 ;; To clean up whitespace at save even if it was intitially dirty,
 ;; unset `whitespace-cleanup-mode-only-if-initially-clean'.
 
-;; This mode is built upon some functionality built into `whitespace-mode', namely
+;; This mode is built upon some functionality provided by `whitespace-mode', namely
 ;; `whitespace-action': if you would rather see a warning when saving a file with
 ;; bogus whitespace, or even have the save aborted, then set that variable.
 
 ;;; Code:
+
+(require 'whitespace)
 
 (defgroup whitespace-cleanup-mode nil
   "Automatically clean up whitespace on save."
@@ -62,6 +64,15 @@ enabled."
   "Records whether `whitespace-cleanup' was a no-op when the mode launched.")
 (make-variable-buffer-local 'whitespace-cleanup-mode-initially-clean)
 
+(defun whitespace-cleanup-mode-buffer-is-clean-p ()
+  "Return t iff the whitespace in the current buffer is clean."
+  (let ((contents (buffer-substring-no-properties (point-min) (point-max))))
+                (with-temp-buffer
+                  (insert contents)
+                  (set-buffer-modified-p nil)
+                  (whitespace-cleanup)
+                  (not (buffer-modified-p)))))
+
 ;;;###autoload
 (define-minor-mode whitespace-cleanup-mode
   "Automatically call `whitespace-cleanup' on save."
@@ -71,12 +82,7 @@ enabled."
   (if whitespace-cleanup-mode
       (progn
         (setq whitespace-cleanup-mode-initially-clean
-              (let ((contents (buffer-substring-no-properties (point-min) (point-max))))
-                (with-temp-buffer
-                  (insert contents)
-                  (set-buffer-modified-p nil)
-                  (whitespace-cleanup)
-                  (not (buffer-modified-p)))))
+              (whitespace-cleanup-mode-buffer-is-clean-p))
         (add-hook 'write-file-functions 'whitespace-cleanup-mode-write-file nil t))
     (remove-hook 'write-file-functions 'whitespace-cleanup-mode-write-file t)))
 
@@ -88,6 +94,7 @@ enabled."
   turn-on-whitespace-cleanup-mode)
 
 (defun turn-on-whitespace-cleanup-mode ()
+  "Enable `whitespace-cleanup-mode' if appropriate in this buffer."
   (unless (or (minibufferp)
               (derived-mode-p 'special-mode 'view-mode 'comint-mode))
     (whitespace-cleanup-mode 1)))
