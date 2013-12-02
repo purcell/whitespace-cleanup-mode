@@ -56,7 +56,7 @@
 
 (defcustom whitespace-cleanup-mode-only-if-initially-clean t
   "When non-nil, only clean up whitespace at save if it was clean initially.
-The check for initial cleanliness is done whan `whitespace-cleanup-mode' is
+The check for initial cleanliness is done when `whitespace-cleanup-mode' is
 enabled."
   :group 'whitespace-cleanup-mode)
 
@@ -65,7 +65,7 @@ enabled."
 (make-variable-buffer-local 'whitespace-cleanup-mode-initially-clean)
 
 (defun whitespace-cleanup-mode-buffer-is-clean-p ()
-  "Return t iff the whitespace in the current buffer is clean."
+  "Return t if the whitespace in the current buffer is clean."
   (let ((contents (buffer-substring-no-properties (point-min) (point-max))))
                 (with-temp-buffer
                   (insert contents)
