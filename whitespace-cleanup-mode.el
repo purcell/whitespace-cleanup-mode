@@ -31,7 +31,8 @@
 
 ;; `whitespace-cleanup-mode' is a minor mode which calls `whitespace-cleanup'
 ;; before saving the current buffer, but only if the whitespace in the buffer
-;; was initially clean.
+;; was initially clean. Moreover, it calls whitespace-cleanup-region on modified
+;; lines if the buffer was not initially clean.
 
 ;; Set `whitespace-cleanup-mode' to t in ".dir-locals.el" to enable the mode
 ;; project-wide, or add it to the hook for the major mode(s) of your choice.
@@ -50,13 +51,60 @@
 
 (require 'whitespace)
 
+(setq whitespace-cleanup-mode-diff-command "diff")
+
+(defun whitespace-cleanup-mode-diff (old-file new-file)
+  (if (and (file-readable-p old-file)
+           (file-readable-p new-file))
+      (progn
+        (with-temp-buffer
+          (when
+              (call-process whitespace-cleanup-mode-diff-command nil t
+                            "--old-group-format="
+                            "--new-group-format=%dF %dL;"
+                            "--changed-group-format=%dF %dL;"
+                            "--unchanged-group-format="
+                            "--line-format="
+                            old-file new-file)
+            (buffer-string))))
+    (message (concat old-file " not readable"))
+    (message (concat new-file " not readable"))))
+
+(defun whitespace-cleanup-mode-diff-cleanup ()
+  (let ((old-filename (buffer-file-name))
+        (new-filename (make-temp-name "/tmp/whitespace"))
+        (my-buffer (current-buffer))
+        diff-result
+        saved-position)
+    (with-temp-file new-filename (insert-buffer-substring my-buffer))
+    (setq diff-result (whitespace-cleanup-mode-diff old-filename new-filename))
+    (dolist (element (split-string diff-result ";" t))
+      (save-excursion
+        (setq saved-position (point))
+        (let ((difference (split-string element " " t)))
+          (print difference)
+          (goto-char (point-min))
+          (let ((first-line (string-to-int (nth 0 difference)))
+                (last-line (string-to-int (nth 1 difference)))
+                begin-region
+                end-region)
+            (forward-line (- first-line (line-number-at-pos)))
+            (beginning-of-line)
+            (setq begin-region (point))
+            (forward-line (- last-line (line-number-at-pos)))
+            (end-of-line)
+            (setq end-region (point))
+            (whitespace-cleanup-region begin-region end-region)))
+        (goto-char saved-position)))
+    (delete-file new-filename)))
+
 (defgroup whitespace-cleanup-mode nil
   "Automatically clean up whitespace on save."
   :group 'convenience)
 
 (defcustom whitespace-cleanup-mode-only-if-initially-clean t
   "When non-nil, only clean up whitespace at save if it was clean initially.
-The check for initial cleanliness is done whan `whitespace-cleanup-mode' is
+The check for initial cleanliness is done when `whitespace-cleanup-mode' is
 enabled."
   :group 'whitespace-cleanup-mode)
 
@@ -65,7 +113,7 @@ enabled."
 (make-variable-buffer-local 'whitespace-cleanup-mode-initially-clean)
 
 (defun whitespace-cleanup-mode-buffer-is-clean-p ()
-  "Return t iff the whitespace in the current buffer is clean."
+  "Return t if the whitespace in the current buffer is clean."
   (let ((contents (buffer-substring-no-properties (point-min) (point-max))))
                 (with-temp-buffer
                   (insert contents)
@@ -101,12 +149,13 @@ enabled."
 
 (defun whitespace-cleanup-mode-write-file ()
   "Function added to `write-file-functions'."
-  (when (and whitespace-cleanup-mode
-             (not buffer-read-only)
-             (or (not whitespace-cleanup-mode-only-if-initially-clean)
-                 whitespace-cleanup-mode-initially-clean))
-    (let ((whitespace-action (or whitespace-action '(auto-cleanup))))
-      (whitespace-write-file-hook))))
+  (if (and whitespace-cleanup-mode
+           (not buffer-read-only)
+           (or (not whitespace-cleanup-mode-only-if-initially-clean)
+               whitespace-cleanup-mode-initially-clean))
+      (let ((whitespace-action (or whitespace-action '(auto-cleanup))))
+        (whitespace-write-file-hook))
+    (whitespace-cleanup-mode-diff-cleanup)))
 
 
 (provide 'whitespace-cleanup-mode)
