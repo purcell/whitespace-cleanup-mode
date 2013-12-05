@@ -56,7 +56,7 @@
 
 (defcustom whitespace-cleanup-mode-only-if-initially-clean t
   "When non-nil, only clean up whitespace at save if it was clean initially.
-The check for initial cleanliness is done whan `whitespace-cleanup-mode' is
+The check for initial cleanliness is done when `whitespace-cleanup-mode' is
 enabled."
   :group 'whitespace-cleanup-mode)
 
