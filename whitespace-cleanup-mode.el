@@ -61,7 +61,7 @@ enabled."
   :group 'whitespace-cleanup-mode)
 
 (defcustom whitespace-cleanup-mode-ignore-modes
-  '(special-mode view-mode comint-mode)
+  '(special-mode view-mode comint-mode cider-repl-mode haskell-interactive-mode)
   "List of major modes in which cleanup will not be automatically enabled.
 If the major mode of a buffer is derived from one of these, then
  `global-whitespace-cleanup-mode' will not enable `whitespace-cleanup-mode'
