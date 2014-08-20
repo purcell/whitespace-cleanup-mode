@@ -60,6 +60,15 @@ The check for initial cleanliness is done when `whitespace-cleanup-mode' is
 enabled."
   :group 'whitespace-cleanup-mode)
 
+(defcustom whitespace-cleanup-mode-ignore-modes
+  '(special-mode view-mode comint-mode)
+  "List of major modes in which cleanup will not be automatically enabled.
+If the major mode of a buffer is derived from one of these, then
+ `global-whitespace-cleanup-mode' will not enable `whitespace-cleanup-mode'
+ in that buffer."
+  :type '(repeat symbol)
+  :group 'whitespace-cleanup-mode)
+
 (defvar whitespace-cleanup-mode-initially-clean nil
   "Records whether `whitespace-cleanup' was a no-op when the mode launched.")
 (make-variable-buffer-local 'whitespace-cleanup-mode-initially-clean)
@@ -96,7 +105,7 @@ enabled."
 (defun turn-on-whitespace-cleanup-mode ()
   "Enable `whitespace-cleanup-mode' if appropriate in this buffer."
   (unless (or (minibufferp)
-              (derived-mode-p 'special-mode 'view-mode 'comint-mode))
+              (apply 'derived-mode-p whitespace-cleanup-mode-ignore-modes))
     (whitespace-cleanup-mode 1)))
 
 (defun whitespace-cleanup-mode-write-file ()
