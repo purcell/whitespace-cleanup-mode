@@ -1,5 +1,5 @@
-[![Melpa Status](http://melpa.milkbox.net/packages/whitespace-cleanup-mode-badge.svg)](http://melpa.milkbox.net/#/whitespace-cleanup-mode)
-[![Melpa Stable Status](http://melpa-stable.milkbox.net/packages/whitespace-cleanup-mode-badge.svg)](http://melpa-stable.milkbox.net/#/whitespace-cleanup-mode)
+[![Melpa Status](http://melpa.org/packages/whitespace-cleanup-mode-badge.svg)](http://melpa.org/#/whitespace-cleanup-mode)
+[![Melpa Stable Status](http://stable.melpa.org/packages/whitespace-cleanup-mode-badge.svg)](http://stable.melpa.org/#/whitespace-cleanup-mode)
 
 whitespace-cleanup-mode.el
 ==========================
@@ -56,7 +56,7 @@ This mode is built upon some functionality built into `whitespace-mode`, namely
 bogus whitespace, or even have the save aborted, then set that variable.
 
 [marmalade]: http://marmalade-repo.org
-[melpa]: http://melpa.milkbox.net
+[melpa]: http://melpa.org
 
 <hr>
 
