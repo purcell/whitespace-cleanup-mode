@@ -54,6 +54,10 @@
   "Automatically clean up whitespace on save."
   :group 'convenience)
 
+(defcustom whitespace-cleanup-mode-preserve-point nil
+  "When non-nil, the column position of point will be restored after cleanup."
+  :group 'whitespace-cleanup-mode)
+
 (defcustom whitespace-cleanup-mode-only-if-initially-clean t
   "When non-nil, only clean up whitespace at save if it was clean initially.
 The check for initial cleanliness is done when `whitespace-cleanup-mode' is
@@ -114,9 +118,12 @@ If the major mode of a buffer is derived from one of these, then
              (not buffer-read-only)
              (or (not whitespace-cleanup-mode-only-if-initially-clean)
                  whitespace-cleanup-mode-initially-clean))
-    (let ((whitespace-action (or whitespace-action '(auto-cleanup))))
-      (whitespace-write-file-hook))))
-
+    (let ((whitespace-action (or whitespace-action '(auto-cleanup)))
+          (col (current-column)))
+      (whitespace-write-file-hook)
+      (when whitespace-cleanup-mode-preserve-point
+        (move-to-column col t)
+        (set-buffer-modified-p nil)))))
 
 (provide 'whitespace-cleanup-mode)
 ;;; whitespace-cleanup-mode.el ends here
