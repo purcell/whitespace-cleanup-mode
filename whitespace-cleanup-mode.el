@@ -117,8 +117,7 @@ If the major mode of a buffer is derived from one of these, then
     (let ((whitespace-action (or whitespace-action '(auto-cleanup)))
           (col (current-column)))
       (whitespace-write-file-hook)
-      (when (/= col (current-column))
-        (move-to-column col t))                                                                                                       
+      (move-to-column col t)
       nil)))
 
 
