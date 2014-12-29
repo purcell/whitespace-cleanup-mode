@@ -112,6 +112,7 @@ If the major mode of a buffer is derived from one of these, then
   "Function added to `write-file-functions'."
   (when (and whitespace-cleanup-mode
              (not buffer-read-only)
+             (not (looking-back "\\s-$"))
              (or (not whitespace-cleanup-mode-only-if-initially-clean)
                  whitespace-cleanup-mode-initially-clean))
     (let ((whitespace-action (or whitespace-action '(auto-cleanup))))
