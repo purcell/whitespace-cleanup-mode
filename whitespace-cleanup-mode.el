@@ -3,7 +3,7 @@
 ;; Copyright (C) 2013-2014 Steve Purcell
 
 ;; Author: Steve Purcell <steve@sanityinc.com>
-;; Version: DEV
+;; Package-Version: 0
 ;; URL: https://github.com/purcell/whitespace-cleanup-mode
 ;; Keywords: convenience
 
