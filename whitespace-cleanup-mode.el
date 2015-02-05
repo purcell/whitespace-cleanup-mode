@@ -1,4 +1,4 @@
-;;; whitespace-cleanup-mode.el --- Intelligently call whitespace-cleanup on save
+;;; whitespace-cleanup-mode.el --- Intelligently call whitespace-cleanup on save -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2013-2014 Steve Purcell
 
