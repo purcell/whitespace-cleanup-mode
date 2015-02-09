@@ -1,4 +1,4 @@
-;;; whitespace-cleanup-mode.el --- Intelligently call whitespace-cleanup on save
+;;; whitespace-cleanup-mode.el --- Intelligently call whitespace-cleanup on save -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2013-2014 Steve Purcell
 
@@ -92,11 +92,20 @@ If the major mode of a buffer is derived from one of these, then
                   (whitespace-cleanup)
                   (not (buffer-modified-p)))))
 
+(defun whitespace-cleanup-mode-mode-line ()
+    "Return a string for mode-line.
+
+If current buffer's initilal whitespace status is not clean,
+append ! mark to WSC lighter word."
+    (concat " WSC"
+            (if whitespace-cleanup-mode-initially-clean
+                "" "!")))
+
 ;;;###autoload
 (define-minor-mode whitespace-cleanup-mode
   "Automatically call `whitespace-cleanup' on save."
   nil
-  " WSC"
+  (:eval (whitespace-cleanup-mode-mode-line))
   nil
   (if whitespace-cleanup-mode
       (progn
