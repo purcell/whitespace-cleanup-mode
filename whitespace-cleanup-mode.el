@@ -1,6 +1,6 @@
 ;;; whitespace-cleanup-mode.el --- Intelligently call whitespace-cleanup on save
 
-;; Copyright (C) 2013-2014 Steve Purcell
+;; Copyright (C) 2013-2015 Steve Purcell
 
 ;; Author: Steve Purcell <steve@sanityinc.com>
 ;; Package-Version: 0
