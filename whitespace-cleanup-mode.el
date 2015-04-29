@@ -84,7 +84,7 @@ If the major mode of a buffer is derived from one of these, then
 (make-variable-buffer-local 'whitespace-cleanup-mode-initially-clean)
 
 (defun whitespace-cleanup-mode-buffer-is-clean-p ()
-  "Return t iff the whitespace in the current buffer is clean."
+  "Return t if the whitespace in the current buffer is clean."
   (let ((contents (buffer-substring-no-properties (point-min) (point-max))))
                 (with-temp-buffer
                   (insert contents)
