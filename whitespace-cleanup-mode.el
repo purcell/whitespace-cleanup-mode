@@ -100,8 +100,8 @@ If the major mode of a buffer is derived from one of these, then
   "Return a string for mode-line.
 Use '!' to signify that the buffer was not initially clean."
   (concat " WSC"
-          (if whitespace-cleanup-mode-initially-clean
-              "" "!")))
+          (unless whitespace-cleanup-mode-initially-clean
+            "!")))
 
 ;;;###autoload
 (define-minor-mode whitespace-cleanup-mode
