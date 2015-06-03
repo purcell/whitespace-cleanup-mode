@@ -85,12 +85,16 @@ If the major mode of a buffer is derived from one of these, then
 
 (defun whitespace-cleanup-mode-buffer-is-clean-p ()
   "Return t iff the whitespace in the current buffer is clean."
-  (let ((contents (buffer-substring-no-properties (point-min) (point-max))))
-                (with-temp-buffer
-                  (insert contents)
-                  (set-buffer-modified-p nil)
-                  (whitespace-cleanup)
-                  (not (buffer-modified-p)))))
+  (let ((contents (buffer-substring-no-properties (point-min) (point-max)))
+        (orig-indent-tabs-mode indent-tabs-mode)
+        (orig-whitespace-style whitespace-style))
+    (with-temp-buffer
+      (insert contents)
+      (set-buffer-modified-p nil)
+      (setq indent-tabs-mode orig-indent-tabs-mode
+            whitespace-style orig-whitespace-style)
+      (whitespace-cleanup)
+      (not (buffer-modified-p)))))
 
 (defun whitespace-cleanup-mode-mode-line ()
   "Return a string for mode-line.
