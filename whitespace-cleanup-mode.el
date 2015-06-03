@@ -143,5 +143,13 @@ Use '!' to signify that the buffer was not initially clean."
         (move-to-column col t)
         (set-buffer-modified-p nil)))))
 
+(defadvice whitespace-cleanup-region (around whitespace-cleanup-mode-mark-clean (start end) activate)
+  "When `whitespace-cleanup' is called, mark the buffer as initially clean."
+  (let ((cleaning-up-whole-buffer (and (eq start (point-min))
+                                       (eq end (point-max)))))
+    ad-do-it
+    (when cleaning-up-whole-buffer
+      (setq whitespace-cleanup-mode-initially-clean t))))
+
 (provide 'whitespace-cleanup-mode)
 ;;; whitespace-cleanup-mode.el ends here
