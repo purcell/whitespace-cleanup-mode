@@ -116,6 +116,7 @@ Use '!' to signify that the buffer was not initially clean."
         (add-hook 'write-file-functions 'whitespace-cleanup-mode-write-file nil t))
     (remove-hook 'write-file-functions 'whitespace-cleanup-mode-write-file t)))
 
+;;;###autoload
 (put 'whitespace-cleanup-mode 'safe-local-variable 'booleanp)
 
 ;;;###autoload
