@@ -127,6 +127,7 @@ Use '!' to signify that the buffer was not initially clean."
 (defun turn-on-whitespace-cleanup-mode ()
   "Enable `whitespace-cleanup-mode' if appropriate in this buffer."
   (unless (or (minibufferp)
+              (and buffer-read-only (not (buffer-file-name)))
               (apply 'derived-mode-p whitespace-cleanup-mode-ignore-modes))
     (whitespace-cleanup-mode 1)))
 
