@@ -24,7 +24,7 @@ Installation
 =============
 
 If you choose not to use one of the convenient
-packages in [Melpa][melpa] and [Marmalade][marmalade], you'll need to
+packages in [Melpa][melpa], you'll need to
 add the directory containing `whitespace-cleanup-mode.el` to your `load-path`, and
 then `(require 'whitespace-cleanup-mode)`.
 
@@ -55,7 +55,6 @@ This mode is built upon some functionality built into `whitespace-mode`, namely
 `whitespace-action`: if you would rather see a warning when saving a file with
 bogus whitespace, or even have the save aborted, then set that variable.
 
-[marmalade]: http://marmalade-repo.org
 [melpa]: http://melpa.org
 
 <hr>
