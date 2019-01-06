@@ -92,8 +92,8 @@ If the major mode of a buffer is derived from one of these, then
     (with-temp-buffer
       (insert contents)
       (set-buffer-modified-p nil)
-      (setq indent-tabs-mode orig-indent-tabs-mode
-            whitespace-style orig-whitespace-style)
+      (set (make-local-variable 'indent-tabs-mode) orig-indent-tabs-mode)
+      (set (make-local-variable 'whitespace-style) orig-whitespace-style)
       (whitespace-cleanup)
       (not (buffer-modified-p)))))
 
