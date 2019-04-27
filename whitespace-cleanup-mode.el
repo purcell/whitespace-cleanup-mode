@@ -80,9 +80,30 @@ If the major mode of a buffer is derived from one of these, then
   :type '(repeat symbol)
   :group 'whitespace-cleanup)
 
+(defcustom whitespace-cleanup-mode-enabled-globally t
+  "When non-nil, enable whitespace-cleanup-mode in all buffers.
+This is effective if `global-whitespace-cleanup-mode' is on.
+Otherwise, you have to set `whitespace-cleanup-mode-enabled-locally'
+in individual files/directories to turn on `whitespace-cleanup-mode'
+automatically."
+  :type 'boolean
+  :group 'whitespace-cleanup)
+
 (defvar whitespace-cleanup-mode-initially-clean nil
   "Records whether `whitespace-cleanup' was a no-op when the mode launched.")
 (make-variable-buffer-local 'whitespace-cleanup-mode-initially-clean)
+
+(defvar whitespace-cleanup-mode-enabled-locally nil
+  "Automatically turn on `whitespace-cleanup-mode' in this buffer.
+
+If the value is t, `global-whitespace-cleanup-mode' turns
+on `whitespace-cleanup-mode', even when
+`whitespace-cleanup-mode-enabled-globally' is off.
+
+This variable is intended to be set locally either as a
+file-local variable or directory-local variable.")
+(make-variable-buffer-local 'whitespace-cleanup-mode-enabled-locally)
+(put 'whitespace-cleanup-mode-enabled-locally 'safe-local-variable 'booleanp)
 
 (defun whitespace-cleanup-mode-buffer-is-clean-p ()
   "Return t iff the whitespace in the current buffer is clean."
@@ -127,8 +148,10 @@ Use '!' to signify that the buffer was not initially clean."
 
 (defun turn-on-whitespace-cleanup-mode ()
   "Enable `whitespace-cleanup-mode' if appropriate in this buffer."
-  (unless (or (minibufferp)
-              (apply 'derived-mode-p whitespace-cleanup-mode-ignore-modes))
+  (when (and (or whitespace-cleanup-mode-enabled-globally
+                 whitespace-cleanup-mode-enabled-locally)
+             (not (or (minibufferp)
+                      (apply 'derived-mode-p whitespace-cleanup-mode-ignore-modes))))
     (whitespace-cleanup-mode 1)))
 
 (defun whitespace-cleanup-mode-write-file ()
