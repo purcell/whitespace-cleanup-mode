@@ -45,7 +45,7 @@ variables.)
 
 Alternatively, enable whitespace cleanup for a particular major mode:
 
-```lisp
+```elisp
 (add-hook 'ruby-mode-hook 'whitespace-cleanup-mode)
 ```
 
