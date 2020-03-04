@@ -1,5 +1,6 @@
 [![Melpa Status](http://melpa.org/packages/whitespace-cleanup-mode-badge.svg)](http://melpa.org/#/whitespace-cleanup-mode)
 [![Melpa Stable Status](http://stable.melpa.org/packages/whitespace-cleanup-mode-badge.svg)](http://stable.melpa.org/#/whitespace-cleanup-mode)
+[![Build Status](https://github.com/purcell/whitespace-cleanup-mode/workflows/CI/badge.svg)](https://github.com/purcell/whitespace-cleanup-mode/actions)
 <a href="https://www.patreon.com/sanityinc"><img alt="Support me" src="https://img.shields.io/badge/Support%20Me-%F0%9F%92%97-ff69b4.svg"></a>
 
 whitespace-cleanup-mode.el
