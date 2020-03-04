@@ -1,9 +1,10 @@
-;;; whitespace-cleanup-mode.el --- Intelligently call whitespace-cleanup on save
+;;; whitespace-cleanup-mode.el --- Intelligently call whitespace-cleanup on save  -*- lexical-binding: t -*-
 
-;; Copyright (C) 2013-2015 Steve Purcell
+;; Copyright (C) 2013-2020 Steve Purcell
 
 ;; Author: Steve Purcell <steve@sanityinc.com>
 ;; Package-Version: 0
+;; Package-Requires: ((emacs "24.1"))
 ;; URL: https://github.com/purcell/whitespace-cleanup-mode
 ;; Keywords: convenience
 
@@ -63,13 +64,15 @@ to the end of the line's trimmed content.  When this variable is
 non-nil, then the trimmed space is re-added after save, but
 without marking the buffer as modified.  This allows
 uninterrupted editing with very short autosave intervals."
-  :group 'whitespace-cleanup)
+  :group 'whitespace-cleanup
+  :type 'boolean)
 
 (defcustom whitespace-cleanup-mode-only-if-initially-clean t
   "When non-nil, only clean up whitespace at save if it was clean initially.
 The check for initial cleanliness is done when `whitespace-cleanup-mode' is
 enabled."
-  :group 'whitespace-cleanup)
+  :group 'whitespace-cleanup
+  :type 'boolean)
 
 (defcustom whitespace-cleanup-mode-ignore-modes
   '(special-mode view-mode comint-mode cider-repl-mode haskell-interactive-mode)
@@ -123,9 +126,9 @@ Use '!' to signify that the buffer was not initially clean."
 ;;;###autoload
 (define-globalized-minor-mode global-whitespace-cleanup-mode
   whitespace-cleanup-mode
-  turn-on-whitespace-cleanup-mode)
+  whitespace-cleanup-mode--maybe)
 
-(defun turn-on-whitespace-cleanup-mode ()
+(defun whitespace-cleanup-mode--maybe ()
   "Enable `whitespace-cleanup-mode' if appropriate in this buffer."
   (unless (or (minibufferp)
               (apply 'derived-mode-p whitespace-cleanup-mode-ignore-modes))
