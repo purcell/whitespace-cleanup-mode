@@ -110,9 +110,7 @@ Use '!' to signify that the buffer was not initially clean."
 ;;;###autoload
 (define-minor-mode whitespace-cleanup-mode
   "Automatically call `whitespace-cleanup' on save."
-  nil
-  (:eval (whitespace-cleanup-mode-mode-line))
-  nil
+  :lighter (:eval (whitespace-cleanup-mode-mode-line))
   (if whitespace-cleanup-mode
       (progn
         (setq whitespace-cleanup-mode-initially-clean
