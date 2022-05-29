@@ -17,9 +17,11 @@ Additionally, whitespace preferences are often project-specific, and
 it's inconvenient to set up `before-save-hook` in a `.dir-locals.el` file.
 
 `whitespace-cleanup-mode` is a minor mode which calls `whitespace-cleanup`
-before saving the current buffer, but only if the whitespace in the buffer
+before saving the current buffer, by default only if the whitespace in the buffer
 was initially clean. It determines this by quickly checking to see if
-`whitespace-cleanup` would have any effect on the buffer.
+`whitespace-cleanup` would have any effect on the buffer. With the custom variable
+`whitespace-cleanup-mode-only-if-initially-clean` toggled off, it will always
+clean up the buffer for you.
 
 
 Installation
